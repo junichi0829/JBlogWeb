@@ -4,6 +4,7 @@ import java.util.function.Supplier;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -54,6 +55,7 @@ public class UserController {
 		
 	}
 	
+	@Transactional
 	@PutMapping("/user")
 	public @ResponseBody String updateUser(@RequestBody User user) {
 		
@@ -65,7 +67,7 @@ public class UserController {
 		findUser.setPassword(user.getPassword());
 		findUser.setEmail(user.getEmail());
 		
-		userRepository.save(findUser);
+//		userRepository.save(findUser);
 		return "会員情報の修正ができました。";
 		
 	}
