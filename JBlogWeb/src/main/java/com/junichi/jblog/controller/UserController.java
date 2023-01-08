@@ -35,13 +35,18 @@ public class UserController {
 		
 		// 特定のid（会員番号）に該当するUserオブジェクトを返還する。
 		// 検索された会員がいない場合は例外を返還する。
-		User findUser = userRepository.findById(id).orElseThrow(new Supplier<JBlogException>() {
-			
-			@Override
-			public JBlogException get() {
-				return new JBlogException(id + "番の会員は存在しません。");
-			}
-			
+//		User findUser = userRepository.findById(id).orElseThrow(new Supplier<JBlogException>() {
+//			
+//			@Override
+//			public JBlogException get() {
+//				return new JBlogException(id + "番の会員は存在しません。");
+//			}
+//			
+//		});
+		
+		//上のコードと同一。ラムダ式を利用する。
+		User findUser = userRepository.findById(id).orElseThrow( ()-> {
+			return new JBlogException(id + "番の会員は存在しません。");
 		});
 		
 		return findUser;
