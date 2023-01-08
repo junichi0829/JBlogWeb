@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -50,6 +51,22 @@ public class UserController {
 		});
 		
 		return findUser;
+		
+	}
+	
+	@PutMapping("/user")
+	public @ResponseBody String updateUser(@RequestBody User user) {
+		
+		User findUser = userRepository.findById(user.getId()).orElseThrow( () -> {
+			return new JBlogException(user.getId() + "番の会員は存在しません。");
+		});
+		
+		findUser.setUsername(user.getUsername());
+		findUser.setPassword(user.getPassword());
+		findUser.setEmail(user.getEmail());
+		
+		userRepository.save(findUser);
+		return "会員情報の修正ができました。";
 		
 	}
 	
