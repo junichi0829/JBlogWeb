@@ -1,5 +1,7 @@
 package com.junichi.jblog.controller;
 
+import java.util.function.Supplier;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.junichi.jblog.domain.RoleType;
 import com.junichi.jblog.domain.User;
+import com.junichi.jblog.exception.JBlogException;
 import com.junichi.jblog.persistence.UserRepository;
 
 @Controller
@@ -31,7 +34,16 @@ public class UserController {
 	public @ResponseBody User getUser(@PathVariable int id) {
 		
 		// 特定のid（会員番号）に該当するUserオブジェクトを返還する。
-		User findUser = userRepository.findById(id).get();
+		// 検索された会員がいない場合は例外を返還する。
+		User findUser = userRepository.findById(id).orElseThrow(new Supplier<JBlogException>() {
+			
+			@Override
+			public JBlogException get() {
+				return new JBlogException(id + "番の会員は存在しません。");
+			}
+			
+		});
+		
 		return findUser;
 		
 	}
