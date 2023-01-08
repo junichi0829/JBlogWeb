@@ -21,7 +21,7 @@ public class UserController {
 		
 		user.setRole(RoleType.USER);
 		userRepository.save(user);
-		return user.getUsername() + "会員登録ができました。";
+		return user.getUsername() + " 会員登録ができました。";
 		
 	}
 	
