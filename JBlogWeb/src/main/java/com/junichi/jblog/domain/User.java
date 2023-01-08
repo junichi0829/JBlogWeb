@@ -1,13 +1,16 @@
 package com.junichi.jblog.domain;
 
-import java.security.Timestamp;
+
+import java.sql.Timestamp;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -20,11 +23,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Entity
+@Table(name = "USERS")
 public class User {
 	
 	//主キーに対応する識別子の変数
 	@Id
-	
 	// 1から始まって自動的に1ずつ増加するようにストラテジーを設定
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id; 			// 会員番号
