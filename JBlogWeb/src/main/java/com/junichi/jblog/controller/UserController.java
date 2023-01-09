@@ -1,5 +1,6 @@
 package com.junichi.jblog.controller;
 
+import java.util.List;
 import java.util.function.Supplier;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,6 +80,11 @@ public class UserController {
 		userRepository.deleteById(id);
 		return "会員情報の削除ができました。";
 		
+	}
+	
+	@GetMapping("/user/list")
+	public @ResponseBody List<User> getUserList() {
+		return userRepository.findAll();
 	}
 	
 }
