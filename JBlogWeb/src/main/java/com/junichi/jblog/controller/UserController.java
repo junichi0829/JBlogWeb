@@ -4,6 +4,10 @@ import java.util.List;
 import java.util.function.Supplier;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -85,6 +89,16 @@ public class UserController {
 	@GetMapping("/user/list")
 	public @ResponseBody List<User> getUserList() {
 		return userRepository.findAll();
+	}
+	
+	@GetMapping("/user/page/{page}")
+	public @ResponseBody Page<User> getUserListPaging(@PathVariable int page) {
+		
+		// pageに該当する2個のデータを見る
+		// 降順にidとusernameを並べ替える
+		Pageable pageable = PageRequest.of(page, 2, Sort.Direction.DESC, "id", "username");
+		return userRepository.findAll(pageable);
+		
 	}
 	
 }
