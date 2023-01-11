@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -91,12 +92,14 @@ public class UserController {
 		return userRepository.findAll();
 	}
 	
-	@GetMapping("/user/page/{page}")
-	public @ResponseBody Page<User> getUserListPaging(@PathVariable int page) {
+	@GetMapping("/user/page")
+	public @ResponseBody Page<User> getUserListPaging(
+			@PageableDefault(page = 0, size = 2, direction = Sort.Direction.DESC,
+			sort = {"id", "username"}) Pageable pageable
+		) {
 		
 		// pageに該当する2個のデータを見る
 		// 降順にidとusernameを並べ替える
-		Pageable pageable = PageRequest.of(page, 2, Sort.Direction.DESC, "id", "username");
 		return userRepository.findAll(pageable);
 		
 	}
